@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "note": "Gov weapon classifier. Exact item id wins, then item tag, then soft TACZ detection, then conservative uranium/explosive name heuristics. An unlisted weapon-like item is Class H under Article 5.13; an ordinary item is NONE. Do not list ordinary blocks or tools here.",
+  "itemClasses": {
+    "minecraft:tnt": "BLASTING"
+  },
+  "tagClasses": {
+    "gov:explosive": "EXPLOSIVE",
+    "gov:nuclear": "NUCLEAR",
+    "gov:weapon_like": "H"
+  },
+  "taczCategories": {
+    "pistol": "L",
+    "handgun": "L",
+    "light_firearm": "L",
+    "smg": "R",
+    "submachine_gun": "R",
+    "shotgun": "S",
+    "rifle": "R",
+    "assault_rifle": "R",
+    "sniper": "P",
+    "marksman": "P",
+    "precision_rifle": "P",
+    "machine_gun": "H",
+    "machinegun": "H",
+    "mg": "H",
+    "rpg": "H",
+    "launcher": "H",
+    "grenade": "H",
+    "explosive": "H",
+    "heavy": "H"
+  },
+  "taczNamespaces": [
+    "tacz",
+    "tacz_"
+  ],
+  "tntItems": [
+    "minecraft:tnt"
+  ],
+  "ignitionItems": [
+    "minecraft:flint_and_steel",
+    "minecraft:fire_charge"
+  ],
+  "taczTokenClasses": {
+    "glock": "L",
+    "m1911": "L",
+    "p320": "L",
+    "mp5": "R",
+    "p90": "R",
+    "uzi": "R",
+    "vector": "R",
+    "m870": "S",
+    "spas": "S",
+    "m1014": "S",
+    "aa12": "S",
+    "m4a1": "R",
+    "hk416": "R",
+    "scar": "R",
+    "g36": "R",
+    "aug": "R",
+    "m16": "R",
+    "awp": "P",
+    "m700": "P",
+    "m95": "P",
+    "m107": "P",
+    "kar98": "P",
+    "m249": "H",
+    "rpk": "H",
+    "evolys": "H",
+    "rpg": "H",
+    "m320": "H"
+  },
+  "nuclearTokens": [
+    "uranium",
+    "plutonium",
+    "nuclear",
+    "radioactive",
+    "enriched_uranium",
+    "thorium"
+  ],
+  "explosiveTokens": [
+    "tnt",
+    "dynamite",
+    "c4",
+    "semtex",
+    "grenade",
+    "mining_charge",
+    "warhead",
+    "missile",
+    "explosive",
+    "bomb"
+  ]
+}

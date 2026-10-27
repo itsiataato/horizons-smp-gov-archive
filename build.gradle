@@ -1,0 +1,101 @@
+plugins {
+    id 'java'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+
+version = project.mod_version
+group = project.mod_group
+
+base {
+    archivesName = project.mod_id
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+
+    sourceSets {
+        test {
+            compileClasspath += sourceSets.main.compileClasspath
+            runtimeClasspath += sourceSets.main.runtimeClasspath
+        }
+    }
+}
+
+neoForge {
+    version = project.neo_version
+
+    mods {
+        gov {
+            sourceSet sourceSets.main
+        }
+    }
+
+    runs {
+        server {
+            server()
+            programArgument '--nogui'
+            if (project.hasProperty('govRunDir')) {
+                gameDirectory = project.file(project.property('govRunDir'))
+            }
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ['-Xlint:deprecation']
+}
+
+jar {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+    manifest {
+        attributes([
+            'Specification-Title'    : project.mod_name,
+            'Specification-Vendor'   : 'HorizonsSMP',
+            'Specification-Version'  : '1',
+            'Implementation-Title'   : project.mod_name,
+            'Implementation-Version' : project.version,
+            'Implementation-Vendor'  : 'HorizonsSMP'
+        ])
+    }
+}
+
+tasks.named('test') {
+    failOnNoDiscoveredTests = false
+}
+
+// Temporary task to run the plain main-class request encoding tests.
+tasks.register('runRequestTests', JavaExec) {
+    group = 'verification'
+    description = 'Runs GovBusinessesRequestsTest main class.'
+    dependsOn compileTestJava
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.horizonssmp.gov.client.GovBusinessesRequestsTest'
+    standardOutput = System.out
+    errorOutput = System.err
+}
+
+// TASK-037 button-matrix suites: plain main()s, no JUnit discovery.
+def govMatrixMains = ['ButtonMatrixJobsTest', 'ButtonMatrixTreasuryTest', 'ButtonMatrixFinesTest',
+    'ButtonMatrixJailTest', 'ButtonMatrixVehiclesTest', 'ButtonMatrixWeaponsTest',
+    'ButtonMatrixLawTest', 'ButtonMatrixPeopleTest', 'ButtonMatrixNotesTest',
+    'ButtonMatrixBusinessesTest', 'ButtonMatrixAuditTest', 'ButtonMatrixDashboardTest']
+govMatrixMains.each { shortName ->
+    tasks.register('run' + shortName, JavaExec) {
+        group = 'verification'
+        description = "Runs ${shortName} main class."
+        dependsOn compileTestJava
+        classpath = sourceSets.test.runtimeClasspath
+        mainClass = "com.horizonssmp.gov.client.${shortName}"
+        standardOutput = System.out
+        errorOutput = System.err
+    }
+}
+tasks.register('runButtonMatrixAll') {
+    group = 'verification'
+    description = 'Runs all TASK-037 button-matrix suites.'
+    dependsOn govMatrixMains.collect { tasks.named('run' + it) }
+}

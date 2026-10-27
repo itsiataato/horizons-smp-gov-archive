@@ -1,0 +1,44 @@
+# Gov public archive — whitelist .gitignore
+#
+# Only source, build files, README documentation, and the license are tracked.
+# Everything else (notes, agent bookkeeping, evidence, binaries,
+# runtime data, credentials) is ignored by default.
+
+# Ignore everything first, then re-allow the public set.
+*
+!*/
+
+# This file.
+!/.gitignore
+
+# License (MIT, copyright itsiataato — must stay with every fork).
+!/LICENSE
+
+# Java source, resources, tests.
+!/src/**
+
+# Build files.
+!/build.gradle
+!/settings.gradle
+!/gradle.properties
+
+# Never track client-jar post-processing outputs, configs, or jars —
+# even if copied into the tree by accident.
+*kbox*
+*KBox*
+*obf*.jar
+tools/*.jar
+
+# Verification/build helper scripts (plain text only — no jars, no caches).
+!/tools/*.sh
+!/tools/*.mjs
+!/tools/*.py
+!/tools/README.md
+
+# User-facing documentation.
+!/README.md
+!/README.part1.md
+!/README.part2.md
+!/README.part3.md
+!/README.part4.md
+!/CHANGELOG.md

@@ -1,0 +1,35 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "All Rights Reserved"
+
+[[mods]]
+modId = "gov"
+logoFile = "logo.png"
+version = "${file.jarVersion}"
+displayName = "Gov"
+description = '''Government systems for the Horizons SMP server.'''
+authors = "itsiataato"
+# MATCH_VERSION declares that Gov must be installed on both sides with matching versions: the
+# dedicated server and every player client install the same gov jar. The Gov dashboard is
+# client-side, while government state and commands are server-authoritative, so both sides must
+# install it.
+# Caveat: NeoForge 21.1.259 / FML 4.0.45 does not read this key at all (its mods.toml parser has
+# no displayTest field), so this is a declaration only. The real connection gate is the
+# non-optional versioned network channel registered in RegisterPayloadHandlersEvent
+# (com.horizonssmp.gov.network.GovNetwork): NeoForge's NetworkComponentNegotiator refuses a
+# connection when the channel is missing on either side or the two sides' versions differ.
+displayTest = "MATCH_VERSION"
+
+[[dependencies.gov]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.21.2)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.gov]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.0,21.2.0)"
+ordering = "NONE"
+side = "BOTH"
